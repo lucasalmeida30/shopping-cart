@@ -84,9 +84,10 @@ const resultApi = async () => {
     creatButton.addEventListener('click', async () => {
       const elementItem = await fetchItem(item.id);
       const result = itemCarrinho.appendChild(createCartItemElement(elementItem));
+      saveCartItems('cartItems', elementItem);
       return result;
   });
-  saveCartItems(itemCarrinho.innerHTML);
+ 
  items.appendChild(creatProduct);
  });
 };
