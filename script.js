@@ -3,6 +3,7 @@
 
 // Fique a vontade para modificar o código já escrito e criar suas próprias funções!
 const items = document.querySelector('.items');
+const itemCarrinho = document.querySelector('.cart__items');
 
 /**
  * Função responsável por criar e retornar o elemento de imagem do produto.
@@ -65,6 +66,8 @@ const getIdFromProductItem = (product) => product.querySelector('span.id').inner
  * @param {string} product.price - Preço do produto.
  * @returns {Element} Elemento de um item do carrinho.
  */
+const cartItemClickListener = (element) => element.target.remove();
+
 const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -76,10 +79,32 @@ const createCartItemElement = ({ id, title, price }) => {
 const resultApi = async () => {
  const retorno = await fetchProducts('computador');
   return retorno.forEach((item) => {
- items.appendChild(createProductItemElement(item));
+    const creatProduct = createProductItemElement(item);
+    const creatButton = creatProduct.querySelector('.item__add');
+   creatButton.addEventListener('click', async () => {
+      const elementItem = await fetchItem(item.id);
+      const result = itemCarrinho.appendChild(createCartItemElement(elementItem));
+      return result;
+  });
+ items.appendChild(creatProduct);
  });
 };
 
+// const addItemCarrinho = () => {
+//   const products = document.querySelectorAll('.item');
+//   console.log(products)
+//   products.forEach((element) => {
+//    const idElement = getIdFromProductItem(element);
+//   const creatButton = element.querySelector('.item__add');
+//    creatButton.addEventListener('click', async () => {
+//       const item = await fetchItem(idElement);
+//       const result = itemCarrinho.appendChild(createCartItemElement(item));
+//       return result;
+//   });
+//   });
+// };
+
 window.onload = () => {
   resultApi();
+  // addItemCarrinho();
  };
