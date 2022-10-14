@@ -84,14 +84,27 @@ const resultApi = async () => {
     creatButton.addEventListener('click', async () => {
       const elementItem = await fetchItem(item.id);
       const result = itemCarrinho.appendChild(createCartItemElement(elementItem));
-      saveCartItems('cartItems', elementItem);
+      saveCartItems('cartItems', JSON.stringify(elementItem));
       return result;
   });
- 
- items.appendChild(creatProduct);
+    items.appendChild(creatProduct);
  });
+};
+
+const itemLocalStorage = () => {
+  const itemSaved = getSavedCartItems('cartItems');
+  itemCarrinho.appendChild(createCartItemElement(itemSaved));
+};
+
+const removeItems = () => {
+  const buttonRemove = document.querySelector('.empty-cart');
+  buttonRemove.addEventListener('click', () => {
+   itemCarrinho.innerHTML = '';
+  });
 };
 
 window.onload = () => {
   resultApi();
+  itemLocalStorage();
+  removeItems();
  };
