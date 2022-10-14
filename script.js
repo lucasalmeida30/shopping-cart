@@ -102,9 +102,9 @@ const removeItems = () => {
    itemCarrinho.innerHTML = '';
   });
 };
+removeItems();
 
 window.onload = () => {
   resultApi();
   itemLocalStorage();
-  removeItems();
  };
