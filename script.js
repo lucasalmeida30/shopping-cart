@@ -85,26 +85,29 @@ const resultApi = async () => {
       const elementItem = await fetchItem(item.id);
       const result = itemCarrinho.appendChild(createCartItemElement(elementItem));
       saveCartItems('cartItems', JSON.stringify(elementItem));
+      getSavedCartItems('cartItems');
       return result;
+      
   });
     items.appendChild(creatProduct);
  });
 };
 
-const itemLocalStorage = () => {
-  const itemSaved = getSavedCartItems('cartItems');
-  itemCarrinho.appendChild(createCartItemElement(itemSaved));
-};
+// const itemLocalStorage = () => {
+//   const itemSaved = getSavedCartItems('cartItems');
+//   itemCarrinho.appendChild(createCartItemElement(itemSaved));
+// };
 
 const removeItems = () => {
   const buttonRemove = document.querySelector('.empty-cart');
+  const teste = document.querySelector('.cart__items');
   buttonRemove.addEventListener('click', () => {
-   itemCarrinho.innerHTML = '';
+   teste.innerHTML = '';
   });
 };
 removeItems();
 
 window.onload = () => {
   resultApi();
-  itemLocalStorage();
+  // itemLocalStorage();
  };
