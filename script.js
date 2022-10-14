@@ -84,18 +84,21 @@ const resultApi = async () => {
     creatButton.addEventListener('click', async () => {
       const elementItem = await fetchItem(item.id);
       const result = itemCarrinho.appendChild(createCartItemElement(elementItem));
-      saveCartItems('cartItems', JSON.stringify(elementItem));
-      getSavedCartItems('cartItems');
+      saveCartItems('cartItems', itemCarrinho.innerHTML);
       return result;
   });
     items.appendChild(creatProduct);
  });
 };
 
-// const itemLocalStorage = () => {
-//   const itemSaved = getSavedCartItems('cartItems');
-//   itemCarrinho.appendChild(createCartItemElement(itemSaved));
-// };
+const itemsCarLocal = () => {
+  const addLocal = itemCarrinho;
+  addLocal.innerHTML = getSavedCartItems('cartItems');
+  const myCar = itemCarrinho;
+  myCar.addEventListener('click', (element) => {
+    element.target.remove();
+  });
+};
 
 const removeItems = () => {
   const buttonRemove = document.querySelector('.empty-cart');
@@ -108,5 +111,5 @@ removeItems();
 
 window.onload = () => {
   resultApi();
-  // itemLocalStorage();
+  itemsCarLocal();
  };
