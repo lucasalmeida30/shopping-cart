@@ -138,8 +138,6 @@ body {
 .cart .cart__items {
   height: 500px;
   overflow-y: scroll;
-}
-.cart__items {
   cursor: pointer;
 }
 
