@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-use-of-empty-return-value */
 // Esse tipo de comentário que estão antes de todas as funções são chamados de JSdoc,
 // experimente passar o mouse sobre o nome das funções e verá que elas possuem descrições! 
 
@@ -58,6 +59,16 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
  */
 // const getIdFromProductItem = (product) => product.querySelector('span.id').innerText;
 
+const sumTotal = () => {
+  const classPrice = document.querySelector('.total-price');
+  const itemsCart = document.querySelectorAll('.cart__item');
+  let sumPrice = 0;
+  itemsCart.forEach((item) => {
+  sumPrice += item.price;
+  });
+  classPrice.innerText = `R$ ${sumPrice}`;
+};
+
 /**
  * Função responsável por criar e retornar um item do carrinho.
  * @param {Object} product - Objeto do produto.
@@ -66,14 +77,32 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
  * @param {string} product.price - Preço do produto.
  * @returns {Element} Elemento de um item do carrinho.
  */
-const cartItemClickListener = (element) => element.target.remove();
 
+const cartItemClickListener = (element) => {
+  element.target.remove();
+  sumTotal();
+};
 const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
+  li.price = price;
   li.addEventListener('click', cartItemClickListener);
   return li;
+};
+
+const func = async (item) => {
+  const elementItem = await fetchItem(item.id);
+      const result = itemCarrinho.appendChild(createCartItemElement(elementItem));
+      if (localStorage.cartItems) {
+        const teste = JSON.parse(getSavedCartItems('cartItems'));
+        teste.push({ item });
+        saveCartItems('cartItems', JSON.stringify(teste));
+      } else {
+        saveCartItems('cartItems', JSON.stringify([{ item }]));
+      }
+      sumTotal();
+      return result;
 };
 
 const resultApi = async () => {
@@ -82,22 +111,19 @@ const resultApi = async () => {
     const creatProduct = createProductItemElement(item);
     const creatButton = creatProduct.querySelector('.item__add');
     creatButton.addEventListener('click', async () => {
-      const elementItem = await fetchItem(item.id);
-      const result = itemCarrinho.appendChild(createCartItemElement(elementItem));
-      saveCartItems('cartItems', itemCarrinho.innerHTML);
-      return result;
-  });
+      await func(item);
+    });
     items.appendChild(creatProduct);
  });
 };
 
 const itemsCarLocal = () => {
   const addLocal = itemCarrinho;
-  addLocal.innerHTML = getSavedCartItems('cartItems');
-  const myCar = itemCarrinho;
-  myCar.addEventListener('click', (element) => {
-    element.target.remove();
+  const retunrFunc = JSON.parse(getSavedCartItems('cartItems'));
+  retunrFunc.forEach((element) => {
+    addLocal.appendChild(createCartItemElement(element.item));
   });
+  sumTotal();
 };
 
 const removeItems = () => {
@@ -105,11 +131,13 @@ const removeItems = () => {
   const teste = document.querySelector('.cart__items');
   buttonRemove.addEventListener('click', () => {
    teste.innerHTML = '';
+   localStorage.clear();
+   sumTotal();
   });
 };
-removeItems();
 
 window.onload = () => {
   resultApi();
-  itemsCarLocal();
+  if (localStorage.cartItems) itemsCarLocal();
+  removeItems();
  };

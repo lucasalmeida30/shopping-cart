@@ -141,6 +141,10 @@ body {
   cursor: pointer;
 }
 
+.total-price {
+  font-weight: bolder;
+}
+
 .empty-cart {
   width: 170px;
   height: 35px;
