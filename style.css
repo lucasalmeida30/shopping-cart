@@ -143,6 +143,8 @@ body {
 
 .total-price {
   font-weight: 700;
+  margin-left: 15px;
+  margin-bottom: 15px;
 }
 
 .empty-cart {
@@ -152,4 +154,21 @@ body {
   border: 2px solid rgb(11, 172, 120);
   background-color: rgb(9, 147, 98);
   color: white;
+}
+
+.loading {
+  text-align: center;
+  border: 16px solid lightgray;
+  width: 220px;
+  height: 220px;
+  border-top: 16px solid green;
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+
+  0% { transform: rotate(0deg); }
+
+  100% { transform: rotate(360deg); }
 }

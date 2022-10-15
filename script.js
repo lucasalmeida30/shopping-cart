@@ -66,7 +66,7 @@ const sumTotal = () => {
   itemsCart.forEach((item) => {
   sumPrice += item.price;
   });
-  classPrice.innerText = `R$ ${sumPrice}`;
+  classPrice.innerText = `SubTotal: R$ ${sumPrice}`;
 };
 
 /**
@@ -106,7 +106,10 @@ const func = async (item) => {
 };
 
 const resultApi = async () => {
+ items.innerHTML += '<div class="loading">Carregando...</div>';
  const retorno = await fetchProducts('computador');
+ const loading = document.querySelector('.loading');
+    items.removeChild(loading);
     retorno.forEach((item) => {
     const creatProduct = createProductItemElement(item);
     const creatButton = creatProduct.querySelector('.item__add');
